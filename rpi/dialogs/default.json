@@ -1,0 +1,22 @@
+{
+    "dialogs":[
+        {
+            "id":1,
+            "q":["sen nesin", "sen kimsin", "nesin sen", "kimsin sen", "ne işe yarıyorsun", "sen ne işe yarıyorsun", "ne işe yarıyorsun sen"],
+            "a":["ben yiğit ayaz tarafından geliştirilmiş bir sesli asistanım"],
+            "e":"None"
+        },
+        {
+            "id":2,
+            "q":["orada mısın", "çalışıyor musun", "test", "bozuldun mu", "bozuk musun"],
+            "a":["evet tüm sistemlerim çalışıyor", "mükemmel çalışıyorum", "gayet iyiyim"],
+            "e":"None"
+        },
+        {
+            "id":3,
+            "q":["beni duyuyor musun", "beni duyabiliyor musun", "beni anlayabiliyor musun", "beni anlıyor musun"],
+            "a":["sesin gayet iyi geliyor", "seni duyabiliyorum"],
+            "e":"None"
+        }
+    ]
+}

@@ -1,2 +1,0 @@
-<your python interpreter> -m pip install gTTS SpeechRecognition PyAudio playsound pyserial
-sudo apt install portaudio19-dev sox mpg321

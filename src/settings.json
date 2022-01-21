@@ -1,1 +1,1 @@
-{"lang":"tr", "timeout":5, "max-phrase-time":10, "arduino-port":"/dev/ttyUSB1", "arduino-baudrate": 9600, "arduino-serial-timeout":1}
+{"lang":"tr", "timeout":5, "max-phrase-time":10}

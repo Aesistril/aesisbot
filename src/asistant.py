@@ -1,7 +1,6 @@
 import speech_recognition as sr
 import json
 import re
-import serial
 from os.path import dirname, realpath
 from os import system, listdir, urandom
 from sys import executable
@@ -23,8 +22,6 @@ config = open(dirname(realpath(__file__)) + "/settings.json", "r").read()
 config = json.loads(config)
 dialogs = listdir(dirname(realpath(__file__)) + "/dialogs/")
 r = sr.Recognizer()
-
-arduino = serial.Serial(port=config["arduino-port"], baudrate=config["arduino-baudrate"], timeout=config["arduino-serial-timeout"])
 
 while True:
     input('press enter')

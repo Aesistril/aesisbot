@@ -1,4 +1,19 @@
-# TODO: Remove kind words like "please"
+# Copyright 2022 Yiğit Ayaz
+
+# This file is part of Aesbot.
+
+# Aesbot is free software: you can redistribute it and/or modify it under the terms 
+# of the GNU General Public License as published by the Free Software Foundation, 
+# either version 3 of the License, or (at your option) any later version.
+
+# Aesbot is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+# PURPOSE. See the GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License along with Aesbot. 
+# If not, see <https://www.gnu.org/licenses/>. 
+
+# TODO: Remove kind words like "please" (I think stemmer does this but I'm not sure)
 
 ###################### IMPORTING/INITILIZATION ######################
 from os.path import dirname, isfile
@@ -25,7 +40,6 @@ print("*"*50 + "\n" + cl.Fore.YELLOW+'Updating NLTK resources'+cl.Fore.RESET + "
 print(cl.Fore.GREEN + "Installing tokenizers/punkt.zip")
 nltk.download('punkt')
 print("*"*50 + "\n" + cl.Fore.GREEN+'All resources are up to date'+cl.Fore.RESET + "\n" + "*"*50)
-sleep(1)
 
 stemmer = LancasterStemmer()
 ###################### IMPORTING/INITILIZATION END ######################

@@ -1,0 +1,10 @@
+1. Re-train model when intent files gets changed (MD5 checksum)
+2. Make a gui configurator with qt to generate config.ini
+3. Make a extension store (both cli and gui)
+4. Add a argument parser to train.py
+    -i --intents=<file>
+    -m --no-metrics disable tensorflow metrics and show a loading icon instead
+5. Make a simple shell script to combine intent files
+    From now on intent files will not contain {"intents": []} part. It will be
+    just tags, patterns and responses. {"intents": []} part will be added by
+    the script

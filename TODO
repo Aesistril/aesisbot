@@ -4,7 +4,9 @@
 4. Add a argument parser to train.py
     -i --intents=<file>
     -m --no-metrics disable tensorflow metrics and show a loading icon instead
+    -c --no-gpl-notice
 5. Make a simple shell script to combine intent files
     From now on intent files will not contain {"intents": []} part. It will be
     just tags, patterns and responses. {"intents": []} part will be added by
     the script
+6. Move the nltk updater to another file (Currently it's inside train.py)

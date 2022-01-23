@@ -1,4 +1,4 @@
-# TODO: lütfen gibi nezaket kelimelerini atsın
+# TODO: Remove kind words like "please"
 
 ###################### IMPORTING/INITILIZATION ######################
 from os.path import dirname, isfile

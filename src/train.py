@@ -15,6 +15,23 @@
 
 # TODO: Remove kind words like "please" (I think stemmer does this but I'm not sure)
 
+###################### ENVIRONMENT CHECKING ######################
+from os.path import dirname, isfile
+class platform: from platform import system
+
+# Check if running from source
+chksrc = open("{0}/chksrc".format(dirname(__file__)))
+if chksrc.read() == "nv3OBJk6ZZkdTJkqqOEQ654y58uJYpF5WhSYTWOMqMLIQBq5AxmWmU7uwMajEin3SaCgdT0xmer9BUM02aiznJlJt0H8HFNH5sdE":
+    srcrun = True
+else: srcrun = False
+
+# Get the OS name
+useros = platform.system()
+if useros != 'Linux' and useros != 'Windows':
+    print("Sorry, we only support linux and windows. There is plans on supporting BSD. macOS will probably not get supported but you can open a pull request if you can get it working on macOS")
+    exit(-1)
+###################### ENVIRONMENT CHECKING END ######################
+
 ###################### USER INPUT ######################
 import argparse
 # Get the command line arguments
@@ -28,7 +45,6 @@ args = parser.parse_args()
 ###################### USER INPUT END ######################
 
 ###################### IMPORTING/INITILIZATION ######################
-from os.path import dirname, isfile
 from nltk.stem.lancaster import LancasterStemmer
 from tensorflow.compat.v1 import reset_default_graph
 from configparser import ConfigParser
@@ -99,6 +115,8 @@ for x, doc in enumerate(docs_x):
 # convert lists to numpy array for Tensorflow
 training = numpy.array(training)
 output = numpy.array(output)
+with open("{0}/model/parse.pickle".format(dirname(__file__)), "wb") as f:
+        pickle.dump((words, labels, training, output), f)
 ###################### PARSING END ######################
 
 ###################### AI TRAINING ######################

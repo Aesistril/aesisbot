@@ -15,6 +15,18 @@
 
 # TODO: Remove kind words like "please" (I think stemmer does this but I'm not sure)
 
+###################### USER INPUT ######################
+import argparse
+# Get the command line arguments
+parser = argparse.ArgumentParser(description="Parse the intent files and train the AI model for Aesisbot")
+parser.add_argument('inputfile', metavar="<intents file>", type=str, help="Location of intents file with the dialogs in it. (must be json)")
+# parser.add_argument('modelName', metavar="<model name>", type=str, help='Name of model, Will be asked by asistant when you wanted to switch models, say "Aesisbot, switch models" to switch to another model')
+parser.add_argument('-m', '--monochrome', action="store_true", help="Don't use colored output")
+parser.add_argument('-p', '--no-parse', help='Use old .pickle files instead of parsing intents again')
+parser.add_argument('-o', '--output', type=str, metavar="<output directory>", help='Output directory to save trained models and parsed intents (default: if installed /usr/share/aesisbot/model/<model name>, if running from source src/model/<model name>')
+args = parser.parse_args()
+###################### USER INPUT END ######################
+
 ###################### IMPORTING/INITILIZATION ######################
 from os.path import dirname, isfile
 from nltk.stem.lancaster import LancasterStemmer
@@ -27,11 +39,14 @@ class cl: from colorama import Fore, Style, Back, init
 class nltk: from nltk import word_tokenize, download, data
 class json: from json import loads
 
-print("\n")
+print("\n"*2) # Leave some space after tensorflow warning
 cl.init(autoreset=True) # Initiliaze colored terminal output
 
 # Load the config file and intents
-intents = json.loads(open("{0}/intents/testintents.json".format(dirname(__file__))).read())
+if args.inputfile[:1] == "/": # check if input is relative path or not
+    intents = json.loads(open(args.inputfile).read())
+else:
+    intents = json.loads(open("{0}/{1}".format(dirname(__file__), args.inputfile)).read())
 config = ConfigParser()
 config.read("{0}/config.ini".format(dirname(__file__)))
 

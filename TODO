@@ -10,3 +10,4 @@
     just tags, patterns and responses. {"intents": []} part will be added by
     the script
 6. Move the nltk updater to another file (Currently it's inside train.py)
+7. Make ./model directory if it doesn't exists

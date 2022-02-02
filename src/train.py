@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # Copyright (C) 2022 Yiğit Ayaz
 
 # This file is part of Aesisbot.
@@ -28,7 +30,7 @@ else: srcrun = False
 # Get the OS name
 useros = platform.system()
 if useros != 'Linux' and useros != 'Windows':
-    print("Sorry, we only support linux and windows. There is plans on supporting BSD. macOS will probably not get supported but you can open a pull request if you can get it working on macOS")
+    print("Sorry, we only support Linux. There is plans on supporting BSD. macOS will probably not get supported but you can open a pull request if you can get it working on macOS")
     exit(-1)
 ###################### ENVIRONMENT CHECKING END ######################
 
@@ -36,8 +38,7 @@ if useros != 'Linux' and useros != 'Windows':
 import argparse
 # Get the command line arguments
 parser = argparse.ArgumentParser(description="Parse the intent files and train the AI model for Aesisbot")
-parser.add_argument('inputfile', metavar="<intents file>", type=str, help="Location of intents file with the dialogs in it. (must be json)")
-# parser.add_argument('modelName', metavar="<model name>", type=str, help='Name of model, Will be asked by asistant when you wanted to switch models, say "Aesisbot, switch models" to switch to another model')
+# parser.add_argument('inputfile', metavar="<intents file>", type=str, help="Location of intents file with the dialogs in it. (must be json)")
 parser.add_argument('-m', '--monochrome', action="store_true", help="Don't use colored output")
 parser.add_argument('-p', '--no-parse', help='Use old .pickle files instead of parsing intents again')
 parser.add_argument('-o', '--output', type=str, metavar="<output directory>", help='Output directory to save trained models and parsed intents (default: if installed /usr/share/aesisbot/model/<model name>, if running from source src/model/<model name>')
@@ -49,20 +50,18 @@ from nltk.stem.lancaster import LancasterStemmer
 from tensorflow.compat.v1 import reset_default_graph
 from configparser import ConfigParser
 from time import sleep
+class pickle: from pickle import dump
 class numpy: from numpy import array
 class tflearn: from tflearn import fully_connected, regression, DNN, input_data
 class cl: from colorama import Fore, Style, Back, init
 class nltk: from nltk import word_tokenize, download, data
 class json: from json import loads
+class os: from os import listdir
 
 print("\n"*2) # Leave some space after tensorflow warning
 cl.init(autoreset=True) # Initiliaze colored terminal output
 
-# Load the config file and intents
-if args.inputfile[:1] == "/": # check if input is relative path or not
-    intents = json.loads(open(args.inputfile).read())
-else:
-    intents = json.loads(open("{0}/{1}".format(dirname(__file__), args.inputfile)).read())
+# Load the config file
 config = ConfigParser()
 config.read("{0}/config.ini".format(dirname(__file__)))
 
@@ -81,14 +80,24 @@ labels = []
 docs_x = []
 docs_y = [] # Where coresponding tags for patterns stored
 
-for intent in intents["intents"]:
-    for pattern in intent["patterns"]:
-        wrds = nltk.word_tokenize(pattern)
-        words.extend(wrds)
-        docs_x.append(wrds)
-        docs_y.append(intent["tag"])
-    if intent["tag"] not in labels:
-        labels.append(intent["tag"])
+def tokenize():
+    global intents, docs_x, docs_y, words, labels# Use all global variables
+    for intent in intents["intents"]:
+        for pattern in intent["patterns"]:
+            wrds = nltk.word_tokenize(pattern, language=config["LANG"]["lang-long"])
+            words.extend(wrds)
+            docs_x.append(wrds)
+            docs_y.append(intent["tag"])
+        if intent["tag"] not in labels:
+            labels.append(intent["tag"])
+
+# Import intents.json from each directory and parse them
+for directory in os.listdir("{0}/modules/".format(dirname(__file__))): 
+    try: # Check if directory is empty of json file is invalid (fuck you)
+        intents = json.loads(open("{0}/modules/{1}/intents.json".format(dirname(__file__), directory)).read()) # load intents
+        tokenize()
+    except Exception as err: # for debugging
+        pass
 
 words = [stemmer.stem(w.lower()) for w in words if w != "?"] # Remove all connectives, adjuncts, formatives etc.
 words = sorted(list(set(words))) # Delete duplicate words
@@ -115,6 +124,7 @@ for x, doc in enumerate(docs_x):
 # convert lists to numpy array for Tensorflow
 training = numpy.array(training)
 output = numpy.array(output)
+# save parsed/tokenized intents
 with open("{0}/model/parse.pickle".format(dirname(__file__)), "wb") as f:
         pickle.dump((words, labels, training, output), f)
 ###################### PARSING END ######################

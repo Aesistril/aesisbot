@@ -4,9 +4,9 @@
    "responses": ["merhaba", "selam"]},
   {"tag": "how-are-you",
    "patterns": ["nasılsın", "iyi misin", "iyi hissediyor musun", "nasıl gidiyor", "naber", "sen nasılsın"],
-   "responses": ["iyiyim, iyi gidiyor, iyi sen"]},
+   "responses": ["iyiyim", "iyi gidiyor", "iyi sen"]},
    {"tag": "request-water-amount",
     "patterns": ["amount su istiyorum", "amount su istiyorum lütfen", "amount su", "amount su ver", "amount su verir misin", "amount su verir misiniz", "amount su ver lütfen", "amount su verir misin lütfen", "amount su verir misiniz lütfen", "lütfen amount su verir misiniz", "lütfen amount su verir misin", "lütfen amount su ver"],
-    "responses": ["iyiyim, iyi gidiyor, iyi sen"]}
+    "responses": ["WIP"]}
 ]
 }

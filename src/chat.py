@@ -15,14 +15,12 @@
 # You should have received a copy of the GNU General Public License along with Aesisbot. 
 # If not, see <https://www.gnu.org/licenses/>. 
 
-
-
 ###################### IMPORTING/INITILIZATION ######################
 from os.path import dirname
 from tensorflow.compat.v1 import reset_default_graph
 from nltk.stem.lancaster import LancasterStemmer
 from random import choice
-class os: from os import system
+class os: from os import system, listdir
 class pickle: from pickle import load
 class tflearn: from tflearn import fully_connected, regression, DNN, input_data
 class subprocess: from subprocess import call
@@ -51,7 +49,7 @@ try:
         print(cl.Fore.GREEN+"Successfully loaded the variable data")
 except:
     print("*"*50 + "\n"+cl.Fore.YELLOW+"Can't find the variable data, AI might be affected\nfrom this as well, retraining the AI\n"+cl.Fore.RESET+"*"*50 + "\n")
-    os.system("{0}/train.py {0}/intents/reddit.json".format(dirname(__file__)))
+    os.system("{0}/train.py".format(dirname(__file__)))
     print("*"*50 + "\n"+cl.Fore.GREEN+"Training completed! Loading the data...\n"+cl.Fore.RESET+"*"*50)
     with open("{0}/model/parse.pickle".format(dirname(__file__)), "rb") as f:
         words, labels, training, output = pickle.load(f)
@@ -73,18 +71,25 @@ try:
     print(cl.Fore.GREEN+"Successfully loaded the training data")
 except:
     print("*"*50 + "\n"+cl.Fore.YELLOW+"Can't find the AI training data, retraining the AI\n"+cl.Fore.RESET+"*"*50 + "\n")
-    subprocess.call("{0}/train.py {0}/intents/reddit.json".format(dirname(__file__)))
+    subprocess.call("{0}/train.py".format(dirname(__file__)))
     print("*"*50 + "\n"+cl.Fore.GREEN+"Training completed! Loading the data..."+cl.Fore.RESET+"*"*50 + "\n")
     model.load("{0}/model/model.tflearn".format(dirname(__file__)))
     with open("{0}/model/parse.pickle".format(dirname(__file__)), "rb") as f:
         words, labels, training, output = pickle.load(f)
     print(cl.Fore.GREEN+"Successfully loaded the training data")
 
-stemmer = LancasterStemmer()
-intents = json.loads(open("{0}/intents/reddit.json".format(dirname(__file__))).read())
-
+# Import intents.json from each directory and join them together
+intents = {'intents': []}
+for directory in os.listdir("{0}/modules/".format(dirname(__file__))): 
+    try: # Check if directory is empty of json file is invalid (fuck you)
+        intents_file = json.loads(open("{0}/modules/{1}/intents.json".format(dirname(__file__), directory)).read()) # load intents
+        for i in intents_file["intents"]: # join intents together
+            intents["intents"].append(i)
+    except Exception as err: # for debugging
+        pass
 ###################### IMPORTING/INITILIZATION END ######################
 
+stemmer = LancasterStemmer()
 def bag_of_words(s, words):
     bag = [0 for _ in range(len(words))]
 

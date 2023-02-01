@@ -27,11 +27,13 @@ if chksrc.read() == "nv3OBJk6ZZkdTJkqqOEQ654y58uJYpF5WhSYTWOMqMLIQBq5AxmWmU7uwMa
     srcrun = True
 else: srcrun = False
 
+# This is just nonsense. Did I really think like: "Yeah refusing to run that will definitely improve the UX"
 # Get the OS name
-useros = platform.system()
-if useros != 'Linux' and useros != 'Windows':
-    print("Sorry, we only support Linux. There is plans on supporting BSD. macOS will probably not get supported but you can open a pull request if you can get it working on macOS")
-    exit(-1)
+# useros = platform.system()
+# if useros != 'Linux' and useros != 'Windows':
+#     print("Sorry, we only support Linux. There is plans on supporting BSD. macOS will probably not get supported but you can open a pull request if you can get it working on macOS")
+#     exit(-1)
+
 ###################### ENVIRONMENT CHECKING END ######################
 
 ###################### USER INPUT ######################
